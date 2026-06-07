@@ -1,0 +1,42 @@
+{
+  "warfarin": {
+    "interactsWith": ["Spinach", "Kale", "Broccoli", "Grapefruit", "Cabbage", "Brussels Sprouts"],
+    "severity": "High",
+    "message": "Caution: These foods are high in Vitamin K, which reduces the effectiveness of your blood thinner."
+  },
+  "atorvastatin": {
+    "interactsWith": ["Grapefruit", "Pomelo", "Seville Oranges"],
+    "severity": "Medium",
+    "message": "Grapefruit juice can increase the levels of Statin in your blood to dangerous levels."
+  },
+  "metformin": {
+    "interactsWith": ["Alcohol"],
+    "severity": "High",
+    "message": "Risk of lactic acidosis increases when taken with heavy alcohol consumption."
+  },
+  "lisinopril": {
+    "interactsWith": ["Bananas", "Oranges", "Potatoes", "Potassium Supplements"],
+    "severity": "Medium",
+    "message": "This ACE inhibitor can increase potassium levels. Excessive intake of high-potassium foods may cause heart palpitations."
+  },
+  "levothyroxine": {
+    "interactsWith": ["Soy Flour", "Walnuts", "Cottonseed Meal", "High Fiber Foods"],
+    "severity": "Medium",
+    "message": "These ingredients can make this thyroid medication less effective. Take medication on an empty stomach."
+  },
+  "amlodipine": {
+    "interactsWith": ["Grapefruit", "Alcohol"],
+    "severity": "Low",
+    "message": "Grapefruit may slightly increase the concentration of the drug in your system."
+  },
+  "spironolactone": {
+    "interactsWith": ["Salt Substitutes", "Potassium-Rich Foods"],
+    "severity": "High",
+    "message": "Avoid salt substitutes containing potassium as they can lead to dangerously high potassium levels (hyperkalemia)."
+  },
+  "ciprofloxacin": {
+    "interactsWith": ["Milk", "Yogurt", "Calcium-Fortified Juice", "Cheese"],
+    "severity": "Medium",
+    "message": "Calcium-rich dairy products can bind to the antibiotic and prevent its absorption."
+  }
+}

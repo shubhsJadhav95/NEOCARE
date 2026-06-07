@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoCare | Healthcare SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+      /**
+       * This shim prevents the "util" and "process" externalization errors
+       * by providing browser-safe versions of Node.js globals.
+       * Strictly preserved and enhanced to support simple-peer/streams.
+       */
+      window.global = window;
+      window.process = { 
+        env: { NODE_ENV: 'development' },
+        nextTick: (fn) => setTimeout(fn, 0),
+        browser: true
+      };
+      window.util = { 
+        debuglog: () => () => {}, 
+        inspect: (obj) => {
+          try { return JSON.stringify(obj); } 
+          catch (e) { return "[Object]"; }
+        },
+        deprecate: (fn) => fn,
+        format: (...args) => args.join(' '),
+        // STRICTLY ADDED: inherits is required by readable-stream/simple-peer
+        inherits: function(ctor, superCtor) {
+          if (superCtor) {
+            ctor.super_ = superCtor;
+            ctor.prototype = Object.create(superCtor.prototype, {
+              constructor: {
+                value: ctor,
+                enumerable: false,
+                writable: true,
+                configurable: true
+              }
+            });
+          }
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

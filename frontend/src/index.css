@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --neo-slate: #334155;
+  --neo-blue: #0ea5e9;
+}
+
+@theme {
+  --color-neo-slate: #334155;
+  --color-neo-blue: #0ea5e9;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui;
+  --shadow-3d: 0 20px 50px rgba(51, 65, 85, 0.15), 0 10px 15px rgba(14, 165, 233, 0.05);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, #f8fafc, #f1f5f9);
+  color: var(--neo-slate);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  min-height: 100vh;
+}
+
+/* Custom Keyframes for Voice Assistant */
+@keyframes bounce-short {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-short {
+  animation: bounce-short 3s infinite ease-in-out;
+}
+
+/* Custom Utilities */
+@utility neo-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-3d);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@utility neo-btn-primary {
+  background: linear-gradient(to bottom, var(--color-neo-blue), #0284c7);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 4px 0 0 #0369a1;
+  transition: all 0.2s;
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
+}
+
+@utility neo-icon-container {
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    transform: rotate(3deg) scale(1.1);
+  }
+}
