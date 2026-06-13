@@ -48,3 +48,7 @@ desktop.ini
 .cache/
 .parcel-cache/
 .eslintcache
+.env
+**/.env
+.env
+backend/.env

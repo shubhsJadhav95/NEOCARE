@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: neocare-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: neocare
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 952004
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: shubhsjadhav95/neocare-backend:v3
+    container_name: neocare-backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: neocare
+      DB_USER: postgres
+      DB_PASSWORD: 952004
+    ports:
+      - "8088:5000"
+
+  frontend:
+    image: shubhsjadhav95/neocare-frontend:v1
+    container_name: neocare-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8083:8080"
+
+volumes:
+  postgres_data:
