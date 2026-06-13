@@ -32,6 +32,7 @@ services:
       DB_NAME: neocare
       DB_USER: postgres
       DB_PASSWORD: 952004
+      FRONTEND_URL: "https://neocare.devcloudzone.store"
     ports:
       - "8088:5000"
 
