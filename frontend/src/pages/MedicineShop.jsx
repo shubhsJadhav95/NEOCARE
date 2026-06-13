@@ -164,7 +164,7 @@ const MedicineShop = () => {
 
                     {/* Image */}
                     <div className="h-48 bg-slate-50 p-8 flex items-center justify-center cursor-pointer" onClick={() => navigate(`/medicine/${med.id}`)}>
-                        <img src={`http://localhost:5000/${med.medicine_photo?.replace(/\\/g, '/')}`} className="max-h-full object-contain group-hover:scale-105 transition-transform duration-500" alt={med.name} />
+                        <img src={`https://api.neocare.devcloudzone.store/${med.medicine_photo?.replace(/\\/g, '/')}`} className="max-h-full object-contain group-hover:scale-105 transition-transform duration-500" alt={med.name} />
                     </div>
                     
                     {/* Info */}

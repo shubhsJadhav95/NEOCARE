@@ -85,7 +85,7 @@ const PatientAppointments = () => {
                 <div className="flex gap-4">
                   <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 shadow-inner">
                     <img 
-                      src={`http://localhost:5000/${app.doctor?.profile_photo?.replace(/\\/g, '/')}`} 
+                      src={`https://api.neocare.devcloudzone.store/${app.doctor?.profile_photo?.replace(/\\/g, '/')}`} 
                       alt="Doctor" 
                       className="w-full h-full object-cover"
                       onError={(e) => e.target.src = 'https://ui-avatars.com/api/?name=' + app.doctor?.name}

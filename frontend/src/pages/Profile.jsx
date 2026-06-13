@@ -73,7 +73,7 @@ const Profile = () => {
             <div className="bg-white p-8 rounded-[3rem] border border-slate-100 flex flex-col items-center text-center shadow-sm">
               <div className="relative group">
                 <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-50 shadow-xl">
-                  <img src={`http://localhost:5000/${profileData?.profile_photo?.replace('\\', '/')}`} onError={(e) => e.target.src = 'https://ui-avatars.com/api/?name=' + profileData?.name} className="w-full h-full object-cover" alt="Profile" />
+                  <img src={`https://api.neocare.devcloudzone.store/${profileData?.profile_photo?.replace('\\', '/')}`} onError={(e) => e.target.src = 'https://ui-avatars.com/api/?name=' + profileData?.name} className="w-full h-full object-cover" alt="Profile" />
                 </div>
                 <button className="absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full shadow-lg hover:scale-110 transition-transform"><Camera size={16} /></button>
               </div>

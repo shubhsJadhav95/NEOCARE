@@ -178,7 +178,7 @@ const FindDoctor = () => {
             <motion.div layout key={doc.id} className="bg-white p-8 rounded-[3.5rem] border border-slate-100 shadow-sm text-left group hover:shadow-2xl transition-all relative overflow-hidden">
               <div className="flex items-center gap-5 mb-8 cursor-pointer" onClick={() => setSelectedDoc(doc)}>
                 <img 
-                    src={`http://localhost:5000/${doc.profile_photo}`} 
+                    src={`https://api.neocare.devcloudzone.store/${doc.profile_photo}`} 
                     className="w-20 h-20 rounded-3xl object-cover border-4 border-slate-50 group-hover:border-blue-100 transition-all shadow-sm" 
                     onError={(e) => e.target.src='https://ui-avatars.com/api/?name='+doc.name} 
                     alt={doc.name}
@@ -234,7 +234,7 @@ const FindDoctor = () => {
               <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-2/5 bg-slate-50 p-10 flex flex-col items-center justify-center border-r border-slate-100">
                   <img 
-                    src={`http://localhost:5000/${selectedDoc.profile_photo}`} 
+                    src={`https://api.neocare.devcloudzone.store/${selectedDoc.profile_photo}`} 
                     className="w-40 h-40 rounded-[3rem] object-cover border-8 border-white shadow-xl mb-6"
                     onError={(e) => e.target.src='https://ui-avatars.com/api/?name='+selectedDoc.name}
                     alt="Doctor Profile"

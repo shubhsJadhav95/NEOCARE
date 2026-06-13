@@ -274,7 +274,7 @@ const DashboardLayout = ({ children, role }) => {
                     <div className="max-h-[350px] overflow-y-auto p-4 space-y-3">
                       {cart.length > 0 ? cart.map((item, i) => (
                         <div key={i} className="flex gap-3 items-center bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                          <img src={`http://localhost:5000/${item.medicine_photo}`} className="w-10 h-10 rounded-lg object-cover bg-white" alt="" />
+                          <img src={`https://api.neocare.devcloudzone.store/${item.medicine_photo}`} className="w-10 h-10 rounded-lg object-cover bg-white" alt="" />
                           <div className="flex-1 text-left min-w-0">
                             <p className="text-[11px] font-black text-slate-800 truncate uppercase">{item.name}</p>
                             <p className="text-[10px] text-slate-500 font-bold">{item.quantity} x {item.price} CR</p>
@@ -322,7 +322,7 @@ const DashboardLayout = ({ children, role }) => {
                 <p className="text-xs font-black text-slate-800 uppercase truncate max-w-[120px]">{user?.name}</p>
                 <p className="text-[9px] text-blue-600 font-bold uppercase tracking-tighter">Verified User</p>
               </div>
-              <img src={`http://localhost:5000/${user?.profile_photo}`} className="w-10 h-10 rounded-xl object-cover border-2 border-white shadow-sm" onError={(e) => e.target.src='https://ui-avatars.com/api/?name='+user?.name} />
+              <img src={`https://api.neocare.devcloudzone.store/${user?.profile_photo}`} className="w-10 h-10 rounded-xl object-cover border-2 border-white shadow-sm" onError={(e) => e.target.src='https://ui-avatars.com/api/?name='+user?.name} />
             </div>
           </div>
         </header>

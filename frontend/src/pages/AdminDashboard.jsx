@@ -211,9 +211,9 @@ const AdminDashboard = () => {
                 <button onClick={() => setDocModal(null)} className="p-3 bg-white border shadow-sm rounded-full hover:bg-rose-50 hover:text-rose-600 transition-all"><X/></button>
               </div>
               <div className="p-10 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-10 bg-white">
-                {docModal.degree_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">Degree Photo</p><img src={`http://localhost:5000/${docModal.degree_photo}`} className="w-full rounded-3xl border shadow-sm" alt="Degree" /></div>}
-                {docModal.license_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">License Photo</p><img src={`http://localhost:5000/${docModal.license_photo}`} className="w-full rounded-3xl border shadow-sm" alt="License" /></div>}
-                {docModal.shop_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">Shop Photo</p><img src={`http://localhost:5000/${docModal.shop_photo}`} className="w-full rounded-3xl border shadow-sm" alt="Shop" /></div>}
+                {docModal.degree_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">Degree Photo</p><img src={`https://api.neocare.devcloudzone.store/${docModal.degree_photo}`} className="w-full rounded-3xl border shadow-sm" alt="Degree" /></div>}
+                {docModal.license_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">License Photo</p><img src={`https://api.neocare.devcloudzone.store/${docModal.license_photo}`} className="w-full rounded-3xl border shadow-sm" alt="License" /></div>}
+                {docModal.shop_photo && <div className="space-y-4"><p className="font-black text-[10px] uppercase text-slate-400">Shop Photo</p><img src={`https://api.neocare.devcloudzone.store/${docModal.shop_photo}`} className="w-full rounded-3xl border shadow-sm" alt="Shop" /></div>}
               </div>
             </motion.div>
           </div>
@@ -227,7 +227,7 @@ const AdminDashboard = () => {
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="bg-white rounded-[3.5rem] w-full max-w-lg shadow-2xl overflow-hidden text-left relative">
               <button onClick={() => setUserInfoModal(null)} className="absolute top-8 right-8 p-3 bg-slate-100 text-slate-400 rounded-full hover:bg-rose-50 hover:text-rose-600 transition-all z-10"><X size={20}/></button>
               <div className="bg-slate-50 p-10 border-b border-slate-100 flex flex-col items-center">
-                <div className="w-24 h-24 rounded-[2rem] bg-white border-4 border-white shadow-xl overflow-hidden mb-4"><img src={`http://localhost:5000/${userInfoModal.profile_photo}`} className="w-full h-full object-cover" onError={(e) => e.target.src=`https://ui-avatars.com/api/?name=${userInfoModal.name}`} /></div>
+                <div className="w-24 h-24 rounded-[2rem] bg-white border-4 border-white shadow-xl overflow-hidden mb-4"><img src={`https://api.neocare.devcloudzone.store/${userInfoModal.profile_photo}`} className="w-full h-full object-cover" onError={(e) => e.target.src=`https://ui-avatars.com/api/?name=${userInfoModal.name}`} /></div>
                 <h3 className="text-2xl font-black text-slate-800 uppercase italic tracking-tight">{userInfoModal.name}</h3><span className="mt-2 bg-blue-600 text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em]">{userInfoModal.role} Account</span>
               </div>
               <div className="p-10 space-y-6 max-h-[50vh] overflow-y-auto no-scrollbar">

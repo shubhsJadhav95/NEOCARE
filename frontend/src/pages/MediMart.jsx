@@ -291,7 +291,7 @@ const MediMart = () => {
                     <Edit3 size={18} />
                   </button>
                   <div className="h-44 bg-slate-50 flex items-center justify-center p-6 relative">
-                    <img src={`http://localhost:5000/${med.medicine_photo?.replace(/\\/g, '/')}`} alt={med.name} className="max-h-full object-contain mix-blend-multiply" />
+                    <img src={`https://api.neocare.devcloudzone.store/${med.medicine_photo?.replace(/\\/g, '/')}`} alt={med.name} className="max-h-full object-contain mix-blend-multiply" />
                     {med.requiresPrescription === 1 && <div className="absolute bottom-2 right-2 p-1.5 bg-rose-50 text-rose-600 rounded-lg"><ShieldAlert size={14} /></div>}
                   </div>
                   <div className="p-6">

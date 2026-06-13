@@ -191,7 +191,7 @@ const DoctorDashboard = () => {
               {recentAppointments.length > 0 ? recentAppointments.map((app, idx) => (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.1 }} key={app.id} className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-2xl bg-slate-100 overflow-hidden border shadow-inner">
-                    <img src={`http://localhost:5000/${app.patient?.profile_photo}`} onError={(e) => e.target.src = 'https://ui-avatars.com/api/?name=' + app.patient?.name} className="w-full h-full object-cover"/>
+                    <img src={`https://api.neocare.devcloudzone.store/${app.patient?.profile_photo}`} onError={(e) => e.target.src = 'https://ui-avatars.com/api/?name=' + app.patient?.name} className="w-full h-full object-cover"/>
                   </div>
                   <div className="flex-1 border-b border-slate-50 pb-4">
                     <h4 className="text-sm font-black text-slate-800 uppercase tracking-tight">{app.patient?.name}</h4>

@@ -22,7 +22,7 @@ const MedicineDetail = () => {
     try {
       const { data } = await API.get(`/medicines/details/${id}`);
       setMedicine(data);
-      setMainImage(`http://localhost:5000/${data.medicine_photo}`);
+      setMainImage(`https://api.neocare.devcloudzone.store/${data.medicine_photo}`);
       
       const recRes = await API.get(`/medicines/recommendations?category=${data.category}&excludeId=${id}`);
       setRecommendations(recRes.data);
@@ -76,10 +76,10 @@ const MedicineDetail = () => {
             {[medicine.medicine_photo, 'uploads/side_view.jpg'].map((img, idx) => (
               <button 
                 key={idx} 
-                onClick={() => setMainImage(idx === 0 ? `http://localhost:5000/${medicine.medicine_photo}` : `https://placehold.co/600x600?text=Side+View`)}
+                onClick={() => setMainImage(idx === 0 ? `https://api.neocare.devcloudzone.store/${medicine.medicine_photo}` : `https://placehold.co/600x600?text=Side+View`)}
                 className={`w-20 h-20 rounded-2xl border-2 p-2 transition-all bg-slate-50 ${mainImage.includes(img) || (idx === 0 && mainImage.includes(medicine.medicine_photo)) ? 'border-blue-600 scale-105 shadow-md' : 'border-slate-100 opacity-60'}`}
               >
-                <img src={idx === 0 ? `http://localhost:5000/${medicine.medicine_photo}` : `https://placehold.co/100x100?text=Alt`} className="w-full h-full object-contain" />
+                <img src={idx === 0 ? `https://api.neocare.devcloudzone.store/${medicine.medicine_photo}` : `https://placehold.co/100x100?text=Alt`} className="w-full h-full object-contain" />
               </button>
             ))}
           </div>
@@ -149,7 +149,7 @@ const MedicineDetail = () => {
                  className="min-w-[260px] bg-white p-6 rounded-[2.5rem] border border-slate-100 hover:shadow-2xl transition-all cursor-pointer group"
                >
                   <div className="h-36 bg-slate-50 rounded-2xl mb-4 flex items-center justify-center overflow-hidden border border-slate-50">
-                     <img src={`http://localhost:5000/${rec.medicine_photo}`} className="max-h-full object-contain group-hover:scale-110 transition-transform" onError={(e) => e.target.src='https://placehold.co/200?text=Medicine'} />
+                     <img src={`https://api.neocare.devcloudzone.store/${rec.medicine_photo}`} className="max-h-full object-contain group-hover:scale-110 transition-transform" onError={(e) => e.target.src='https://placehold.co/200?text=Medicine'} />
                   </div>
                   <h4 className="font-black text-slate-800 text-sm uppercase mb-1 line-clamp-1 group-hover:text-blue-600">{rec.name}</h4>
                   <p className="text-[10px] text-slate-400 font-bold mb-4 uppercase tracking-widest">{rec.category}</p>

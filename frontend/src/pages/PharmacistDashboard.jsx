@@ -153,9 +153,9 @@ const PharmacistDashboard = () => {
                 <div key={order.id} className="bg-white p-6 rounded-[2.5rem] border-2 border-blue-50 flex items-center justify-between">
                   <div className="flex items-center gap-6">
                     <img 
-                      src={`http://localhost:5000/${order.prescription_photo}`} 
+                      src={`https://api.neocare.devcloudzone.store/${order.prescription_photo}`} 
                       className="w-16 h-16 bg-slate-100 rounded-2xl object-cover cursor-pointer border" 
-                      onClick={() => window.open(`http://localhost:5000/${order.prescription_photo}`, '_blank')} 
+                      onClick={() => window.open(`https://api.neocare.devcloudzone.store/${order.prescription_photo}`, '_blank')} 
                       alt="Rx" 
                     />
                     <div className="text-left">

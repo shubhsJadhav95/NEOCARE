@@ -92,7 +92,7 @@ const AdminFinance = () => {
                   </td>
                   <td className="p-8">
                     {req.screenshot ? (
-                      <a href={`http://localhost:5000/${req.screenshot}`} target="_blank" className="text-blue-500 text-[10px] uppercase font-black flex items-center gap-1 hover:underline">
+                      <a href={`https://api.neocare.devcloudzone.store/${req.screenshot}`} target="_blank" className="text-blue-500 text-[10px] uppercase font-black flex items-center gap-1 hover:underline">
                         View Proof <ExternalLink size={10} />
                       </a>
                     ) : '---'}

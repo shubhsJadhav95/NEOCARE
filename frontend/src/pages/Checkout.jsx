@@ -91,7 +91,7 @@ const Checkout = () => {
           {cart.map((item) => (
             <motion.div key={item.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white p-6 rounded-[2.5rem] border border-slate-100 flex flex-col sm:flex-row items-center gap-8 shadow-sm group hover:shadow-md transition-all">
               <div className="w-32 h-32 bg-slate-50 rounded-[2rem] p-4 flex items-center justify-center shrink-0">
-                <img src={`http://localhost:5000/${item.medicine_photo?.replace(/\\/g, '/')}`} className="max-h-full object-contain mix-blend-multiply" alt={item.name} />
+                <img src={`https://api.neocare.devcloudzone.store/${item.medicine_photo?.replace(/\\/g, '/')}`} className="max-h-full object-contain mix-blend-multiply" alt={item.name} />
               </div>
               <div className="flex-1 text-center sm:text-left">
                 <h3 className="font-black text-xl text-slate-800 uppercase leading-tight mb-1">{item.name}</h3>

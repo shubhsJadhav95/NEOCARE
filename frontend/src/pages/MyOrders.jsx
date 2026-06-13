@@ -51,7 +51,7 @@ const MyOrders = () => {
                 <div className="flex gap-4 items-center">
                   <div className="w-20 h-20 bg-slate-50 rounded-2xl border border-slate-100 p-2">
                     <img 
-                      src={`http://localhost:5000/${order.medicine?.medicine_photo?.replace(/\\/g, '/')}`} 
+                      src={`https://api.neocare.devcloudzone.store/${order.medicine?.medicine_photo?.replace(/\\/g, '/')}`} 
                       className="w-full h-full object-contain mix-blend-multiply"
                       alt="medicine"
                       onError={(e) => e.target.src = 'https://placehold.co/100?text=Med'}
