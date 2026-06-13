@@ -18,4 +18,4 @@ data:
   EMAIL_PORT: "587"
   EMAIL_USER: "neocarehealth@gmail.com"
 
-  FRONTEND_URL: "http://localhost:3001"
+  FRONTEND_URL: "https://neocare.devcloudzone.store"

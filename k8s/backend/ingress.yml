@@ -17,8 +17,9 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: /health
     alb.ingress.kubernetes.io/success-codes: "200"
 
-    # PERFORMANCE
+    # PERFORMANCE & STICKY SESSIONS FOR SOCKET.IO
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=300
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=86400
 
 spec:
   ingressClassName: alb
