@@ -9,7 +9,7 @@ import {
   User, Shield, MessageSquare, Clipboard, Activity 
 } from 'lucide-react';
 
-const socket = io('https://api.neocare.devcloudzone.store');
+const socket = io('https://api.neocare.devcloudzone.store', { transports: ['websocket'] });
 
 const Teleconsulting = () => {
   const user = JSON.parse(localStorage.getItem('user'));

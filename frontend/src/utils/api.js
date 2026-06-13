@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://api.neocare.devcloudzone.store/api',
+  baseURL: 'https://api.neocare.devcloudzone.store/api/auth',
 });
 
 API.interceptors.request.use((config) => {
