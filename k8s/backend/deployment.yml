@@ -8,15 +8,23 @@ spec:
   selector:
     matchLabels:
       app: backend
+
   template:
     metadata:
       labels:
         app: backend
+
     spec:
       containers:
-      - name: costspike-backend-deploy
-        image: shubhsjadhav95/neocare-backend:v3
-        ports:
-        - containerPort: 5000
-        env:
-        
+        - name: backend
+          image: shubhsjadhav95/neocare-backend:v3
+
+          ports:
+            - containerPort: 5000
+
+          envFrom:
+            - configMapRef:
+                name: backend-config
+
+            - secretRef:
+                name: backend-secret
