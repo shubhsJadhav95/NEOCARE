@@ -4,26 +4,29 @@ metadata:
   name: neocare-ingress-backend
   namespace: neocare
   annotations:
-    alb.ingress.kubernetes.io/group.name: costspike-app-lb
+    alb.ingress.kubernetes.io/group.name: neocare-app-lb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:347026173735:certificate/6c33d96f-ba4a-4cdb-ac0b-d431a1a52439
-    alb.ingress.kubernetes.io/healthcheck-path: /api # important
-    # FIXED: correct ALB attribute format
-    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=300
-    alb.ingress.kubernetes.io/success-codes: '200'
-    alb.ingress.kubernetes.io/backend-protocol: HTTP
 
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}, {"HTTPS":443}]'
-    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    # SSL
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:347026173735:certificate/6c33d96f-ba4a-4cdb-ac0b-d431a1a52439
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+
+    # HEALTH CHECK (IMPORTANT)
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/success-codes: "200"
+
+    # PERFORMANCE
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=300
 
 spec:
   ingressClassName: alb
   rules:
-    - host: neocare.devcloudzone.store
+    - host: api.neocare.devcloudzone.store
       http:
         paths:
-          - path: /api
+          - path: /
             pathType: Prefix
             backend:
               service:
