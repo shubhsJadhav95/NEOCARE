@@ -52,3 +52,58 @@ desktop.ini
 **/.env
 .env
 backend/.env
+# Terraform working directory
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Ignore override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform plan files
+*.tfplan
+*.plan
+
+# Dependency lock file (optional)
+# Keep this file if you're building reusable modules or want consistent provider versions.
+# Ignore it only if your team's workflow requires it.
+# .terraform.lock.hcl
+
+# Variable files (often contain secrets)
+*.tfvars
+*.tfvars.json
+
+# Local variable files
+terraform.tfvars
+terraform.tfvars.json
+
+# Sensitive files
+*.pem
+*.key
+*.p12
+*.crt
+
+# Environment files
+.env
+.env.*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
