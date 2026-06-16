@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: neocare-frontend-deploy
-        image: shubhsjadhav95/neocare-frontend:v11
+        image: shubhsjadhav95/neocare-frontend:v13
         ports:
         - containerPort: 8080
