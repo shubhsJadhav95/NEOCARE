@@ -3,7 +3,6 @@ import axios from 'axios';
 const API = axios.create({
   baseURL: 'https://api.neocare.devcloudzone.store/api',
 });
-
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
