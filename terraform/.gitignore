@@ -1,0 +1,29 @@
+# Terraform state files — never commit these
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform plan output
+*.tfplan
+
+# Terraform working directory
+**/.terraform/
+**/.terraform.lock.hcl
+
+# Sensitive variable files — use secrets manager instead
+*.tfvars.json
+secrets.tfvars
+*secret*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# SSH keys — never commit private keys
+*.pem
+id_rsa
+id_rsa.pub

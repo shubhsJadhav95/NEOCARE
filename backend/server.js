@@ -51,9 +51,12 @@ app.use(helmet({
   contentSecurityPolicy: false
 }));
 
+// Node/Express example
 app.use(cors({
-  origin: FRONTEND_URL,
-  credentials: true
+  origin: ['https://neocare.devcloudzone.store'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
