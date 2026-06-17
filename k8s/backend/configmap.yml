@@ -7,7 +7,7 @@ data:
   PORT: "5000"
   NODE_ENV: "development"
 
-  DB_HOST: "postgres"
+  DB_HOST: "database-1.cc7immiow9w7.us-east-1.rds.amazonaws.com"
   DB_PORT: "5432"
   DB_NAME: "neocare"
   DB_USER: "postgres"
@@ -19,3 +19,4 @@ data:
   EMAIL_USER: "neocarehealth@gmail.com"
 
   FRONTEND_URL: "https://neocare.devcloudzone.store"
+

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: neocare-backend
+  namespace: argocd
+spec:
+  destination:
+    namespace: neocare
+    server: https://kubernetes.default.svc
+  source:
+    path: k8s/backend
+    repoURL: https://github.com/shubhsJadhav95/NEOCARE.git
+    targetRevision: devops
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

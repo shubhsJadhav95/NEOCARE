@@ -9,13 +9,13 @@ variable "jump_sg_id"          { type = string }
 variable "kubernetes_version" {
   description = "EKS Kubernetes version"
   type        = string
-  default     = "1.30"
+  default     = "1.31"
 }
 
 variable "node_instance_type" {
   description = "EC2 instance type for EKS worker nodes"
   type        = string
-  default     = "m7i-flex.large"
+  default     = "c7i-flex.large"
 }
 
 variable "node_desired_size" {
@@ -33,7 +33,7 @@ variable "node_min_size" {
 variable "node_max_size" {
   description = "Maximum number of worker nodes"
   type        = number
-  default     = 4
+  default     = 2
 }
 
 variable "enable_public_endpoint" {

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: shubhsjadhav95/neocare-backend:v9
+          image: shubhsjadhav95/neocare-backend:v12
 
           ports:
             - containerPort: 5000
