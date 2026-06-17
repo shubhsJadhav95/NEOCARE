@@ -17,7 +17,7 @@ spec:
         app: backend
 
     spec:
-      serviceAccountName: aws-eks-secret-manager
+      serviceAccountName: aws-csi-secret-manager
 
       containers:
         - name: backend
