@@ -3,8 +3,10 @@ kind: Deployment
 metadata:
   name: backend
   namespace: neocare
+
 spec:
   replicas: 2
+
   selector:
     matchLabels:
       app: backend
@@ -15,16 +17,29 @@ spec:
         app: backend
 
     spec:
+      serviceAccountName: aws-eks-secret-manager
+
       containers:
         - name: backend
           image: shubhsjadhav95/neocare-backend:v12
-
           ports:
             - containerPort: 5000
 
           envFrom:
             - configMapRef:
                 name: backend-config
-
             - secretRef:
                 name: backend-secret
+
+          volumeMounts:
+            - name: secrets-store
+              mountPath: "/mnt/secrets"
+              readOnly: true
+
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "neocare-secrets"
