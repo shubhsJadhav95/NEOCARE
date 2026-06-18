@@ -143,7 +143,7 @@ resource "aws_eks_node_group" "this" {
 
   # Use latest EKS-optimized AMI automatically
   ami_type       = "AL2_x86_64"
-  capacity_type  = "ON_DEMAND"
+  capacity_type  = "SPOT"
   disk_size      = 20
 
   depends_on = [

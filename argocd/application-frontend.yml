@@ -1,19 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: neocare
+  name: neocare-frontend
+  namespace: argocd
 spec:
   destination:
-    namespace: dafault
+    namespace: neocare
     server: https://kubernetes.default.svc
   source:
     path: k8s/frontend
     repoURL: https://github.com/shubhsJadhav95/NEOCARE.git
     targetRevision: devops
-  sources: []
   project: default
   syncPolicy:
     automated:
-      prune: false
+      prune: true
       selfHeal: true
-      enabled: true
