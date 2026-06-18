@@ -79,7 +79,10 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - name: Install Dependencies
-        run: npm install
+        run: npm 
+        working-directory: ./frontend
+
       - name: Run Unit Tests
         run: npm test -- --watchAll=false --passWithNoTests
+        working-directory: ./frontend
       
