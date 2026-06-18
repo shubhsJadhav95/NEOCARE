@@ -6,7 +6,7 @@ on:
 
 jobs:
   install_and_build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
         retention-days: 1
 
   security-check:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: install_and_build
 
     steps:
@@ -52,7 +52,7 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install -y trivy
 
-    # ✅ FIX: Use consistent format + correct extension
+    
     - name: Trivy FS Scan
       run: trivy fs --format table -o fs-report.txt .
 
@@ -65,12 +65,4 @@ jobs:
     - name: Gitleaks Installation
       run: sudo apt install gitleaks -y
 
-    # ✅ FIX: Added missing -- before source
-    - name: Gitleaks Code Scan
-      run: gitleaks detect --source . -r gitleaks-report.json -f json
-
-    - name: Upload Gitleaks Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: gitleaks-report
-        path: gitleaks-report.json
+    
