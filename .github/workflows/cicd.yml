@@ -6,25 +6,29 @@ on:
 
 jobs:
   install_and_build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
         cache: 'npm'
+
+    # ✅ Must run BEFORE build
     - name: Install Dependencies
       run: npm install
+
+    - name: Build Vite App
+      run: npm run build  # this calls "vite build" internally
+
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: react-build
-        path: build/
+        name: vite-build
+        path: dist/        # ✅ Vite outputs to dist/ NOT build/
         retention-days: 1
-
-    - name: Build React App
-      run: npm run build
 
     
