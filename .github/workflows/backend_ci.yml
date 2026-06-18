@@ -1,0 +1,154 @@
+name: React Frontend CI Pipeline
+
+on:
+  push:
+    branches:
+      - devops
+  pull_request:
+    branches:
+      - devops
+
+jobs:
+  build:
+    name: Install & Build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Clean Workspace
+        run: |
+          rm -rf node_modules
+          rm -rf dist
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-build
+          path: frontend/dist
+          retention-days: 1
+
+  security-check:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Trivy Installation
+      run: |
+        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+
+            wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | \
+            gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+
+            echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | \
+            sudo tee /etc/apt/sources.list.d/trivy.list
+
+            sudo apt-get update
+            sudo apt-get install trivy -y
+
+    
+    - name: Trivy FS Scan
+      run: trivy fs --format table -o fs-report.txt .
+
+    - name: Upload Trivy Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-report
+        path: fs-report.txt
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: security-check
+
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+    #  - name: Run Unit Tests
+    #     run: npm run lint
+        
+  sonarqube:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        # Disabling shallow clones is recommended for improving the relevancy of reporting
+        fetch-depth: 0
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v8.2.0
+ # Ex: v4.1.0 or sha1, See the latest version at https://github.com/marketplace/actions/official-sonarqube-scan
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+
+  build_docker_image_and_push:
+    runs-on: ubuntu-latest
+    needs: sonarqube
+  
+    steps:
+    - name: Checkout Code          # ✅ ADD THIS — it's missing!
+      uses: actions/checkout@v4
+  
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+  
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+  
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+  
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+  
+    - name: Build and Push
+      uses: docker/build-push-action@v6
+      with:
+        context: ./frontend          # ✅ point to frontend folder
+        file: ./frontend/Dockerfile  # ✅ exact path to Dockerfile
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/neocare-frontend:latest
+    
+ 
+  
