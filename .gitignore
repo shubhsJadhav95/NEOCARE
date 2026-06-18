@@ -48,3 +48,15 @@ desktop.ini
 .cache/
 .parcel-cache/
 .eslintcache
+.terraform/
+*.exe
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
+
+# Large binaries
+*.exe
+*.zip
