@@ -143,18 +143,22 @@ jobs:
       runs-on: ubuntu-latest
       needs: build_docker_image_and_push
       steps:
-      - name: upload image to ECR
-        uses: appleboy/docker-ecr-action@master
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          access_key: ${{ secrets.aws_access_key_id }}
-          secret_key: ${{ secrets.aws_secret_access_key }}
-          registry: ${{ secrets.registry }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          repo: neocare-frontend
-          region: us-east-1
-          auto_tag: true
-          daemon_off: false
-          dockerfile: ./frontend/Dockerfile
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
           context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/neocare-frontend:latestend
   
