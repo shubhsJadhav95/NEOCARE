@@ -67,7 +67,19 @@ jobs:
         name: trivy-report
         path: fs-report.txt
 
-    - name: Gitleaks Installation
-      run: sudo apt install gitleaks -y
+  test:
+      runs-on: self-hosted
+      needs: security-check
 
-    
+      steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install Dependencies
+        run: npm install
+      - name: Run Unit Tests
+        run: npm test -- --watchAll=false --passWithNoTests
+      
