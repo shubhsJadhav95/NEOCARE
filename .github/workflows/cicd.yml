@@ -48,7 +48,7 @@ jobs:
 
   security-check:
     runs-on: self-hosted
-    needs: install_and_build
+    needs: build
 
     steps:
     - uses: actions/checkout@v4
