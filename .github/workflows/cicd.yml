@@ -6,7 +6,7 @@ on:
 
 jobs:
   install_and_build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
     - uses: actions/checkout@v4
@@ -17,18 +17,22 @@ jobs:
         node-version: '20'
         cache: 'npm'
 
-    # ✅ Must run BEFORE build
+    # ✅ Delete old node_modules first
+    - name: Clean Old Dependencies
+      run: rm -rf node_modules dist
+
+    # ✅ Clean install instead of regular install
     - name: Install Dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build Vite App
-      run: npm run build  # this calls "vite build" internally
+      run: npm run build
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: vite-build
-        path: dist/        # ✅ Vite outputs to dist/ NOT build/
+        path: dist/
         retention-days: 1
 
     
