@@ -57,3 +57,18 @@ output "oidc_provider_arn" {
   description = "OIDC provider ARN for IRSA (IAM Roles for Service Accounts)"
   value       = module.eks.oidc_provider_arn
 }
+
+output "db_instance_id" {
+  description = "RDS instance identifier"
+  value       = aws_db_instance.postgres.id
+}
+
+output "db_instance_arn" {
+  description = "ARN of the RDS instance"
+  value       = aws_db_instance.postgres.arn
+}
+
+output "db_endpoint" {
+  description = "Connection endpoint (host:port)"
+  value       = aws_db_instance.postgres.endpoint
+}

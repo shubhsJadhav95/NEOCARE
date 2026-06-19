@@ -1,63 +1,67 @@
-name: Kubernetes CD
+name: Deploy Frontend to Kubernetes
 
 on:
   push:
-    branches:
-      - devops
-    
+    branches: [main]
+    paths:
+      - 'k8s/frontend/**'
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to deploy'
+        required: false
+        default: 'latest'
+
+env:
+  AWS_REGION: us-east-1       
+  EKS_CLUSTER_NAME: neocare-dev-eks 
+  NAMESPACE: neocare         
+  DEPLOYMENT:  frontend-deployment      l
+  CONTAINER: neocare-frontend-deploy        
+  IMAGE: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest
+
+permissions:
+  id-token: write   # required for OIDC -> AWS role assumption
+  contents: read
 
 jobs:
-  deploy_to_k8s:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          ref: devops
-          fetch-depth: 0
-
-      - name: Update backend image
-        run: |
-            kubectl set image deployment/backend \
-            backend=347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest \
-            -n neocare
-
-      - name: Update frontend image
-        run: |
-            kubectl set image deployment/frontend \
-            frontend=347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest \
-            -n neocare
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Configure kubeconfig
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
+          aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ env.EKS_CLUSTER_NAME }}
 
-      - name: Deploy to Kubernetes
+      - name: Verify cluster
         run: |
-          kubectl apply -f k8s/backend/deployment.yml -n neocare
-          kubectl apply -f k8s/frontend/deployment.yml -n neocare
+          kubectl version --client
+          kubectl cluster-info
+          kubectl get nodes
 
-      - name: Restart deployments
+      - name: kubectl apply
         run: |
-          kubectl rollout restart deployment/backend -n neocare
-          kubectl rollout restart deployment/frontend -n neocare
+          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
 
-      - name: Wait for rollout
+      - name: kubectl set image
         run: |
-          kubectl rollout status deployment/backend -n neocare --timeout=180s
-          kubectl rollout status deployment/frontend -n neocare --timeout=180s
+          IMAGE_TAG="${{ github.event.inputs.image_tag || github.sha }}"
+          kubectl set image deployment/${{ env.DEPLOYMENT }} \
+            ${{ env.CONTAINER }}=${{ env.IMAGE }}:${IMAGE_TAG} \
+            -n ${{ env.NAMESPACE }}
 
-      - name: Commit manifest changes
+      - name: kubectl rollout restart
         run: |
-          git config user.name github-actions
-          git config user.email actions@github.com
-
-          git add k8s/backend/deployment.yml
-          git add k8s/frontend/deployment.yml
-
-          if ! git diff --cached --quiet; then
-            git commit -m "Update Kubernetes manifests [skip ci]"
-            git push origin devops
-          fi
+          kubectl rollout restart deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }}
+          kubectl rollout status deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }} --timeout=120s
