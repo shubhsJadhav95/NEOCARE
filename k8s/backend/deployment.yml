@@ -5,7 +5,7 @@ metadata:
   namespace: neocare
 
 spec:
-  replicas: 2
+  replicas: 3
 
   selector:
     matchLabels:
@@ -21,9 +21,9 @@ spec:
 
       containers:
         - name: backend
-          image: 
+          image: PLACEHOLDER
+          ports:
             - containerPort: 5000
-
           envFrom:
             - configMapRef:
                 name: backend-config
