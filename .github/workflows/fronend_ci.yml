@@ -149,10 +149,11 @@ jobs:
     - name: Build and Push
       uses: docker/build-push-action@v6
       with:
-        context: ./frontend          # ✅ point to frontend folder
-        file: ./frontend/Dockerfile  # ✅ exact path to Dockerfile
+        context: ./frontend
+        file: ./frontend/Dockerfile
         push: true
-        tags: ${{ steps.login-ecr.outputs.registry }}/neocare-frontend:latest
+        tags: 
+          ${{ steps.login-ecr.outputs.registry }}/neocare-frontend:latest
     
  
   
