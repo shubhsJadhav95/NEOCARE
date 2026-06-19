@@ -1,12 +1,14 @@
 name: Deploy to Kubernetes
 
 on:
-  workflow_run:
-    workflows:
-      - "React Frontend CI/CD Pipeline"
-      - "Node Backend CI/CD Pipeline"
-    types:
-      - completed 
+  push:
+    branches:
+      - devops
+   
+  pull_request:
+    branches:
+      - devops
+    
 
 jobs:
   deploy_to_k8s:
