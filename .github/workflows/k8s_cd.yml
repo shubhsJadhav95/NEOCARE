@@ -58,7 +58,7 @@ jobs:
         run: |
           IMAGE_TAG="${{ github.event.inputs.image_tag || github.sha }}"
           kubectl set image deployment/${{ env.DEPLOYMENT }} \
-            ${{ env.CONTAINER }}=${{ env.IMAGE }}:latest \
+            ${{ env.CONTAINER }}=${{ env.IMAGE }} \
             -n ${{ env.NAMESPACE }}
 
       - name: kubectl rollout restart
