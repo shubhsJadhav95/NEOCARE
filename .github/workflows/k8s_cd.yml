@@ -6,7 +6,7 @@ on:
       - "React Frontend CI/CD Pipeline"
       - "Node Backend CI/CD Pipeline"
     types:
-      - completed
+      - completed 
 
 jobs:
   deploy_to_k8s:
