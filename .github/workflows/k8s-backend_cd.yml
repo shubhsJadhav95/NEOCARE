@@ -49,6 +49,13 @@ jobs:
           kubectl version --client
           kubectl cluster-info
           kubectl get nodes
+          
+
+      - name: Update backend image
+        run: |
+          kubectl set image deployment/${{ env.DEPLOYMENT }} \
+            ${{ env.CONTAINER }}=${{ env.IMAGE }} \
+            -n ${{ env.NAMESPACE }}
 
       - name: kubectl apply
         run: |
@@ -58,13 +65,6 @@ jobs:
           kubectl apply -f k8s/backend/configmap.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/backend/deployment.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/secretProvider.yml -n ${{ env.NAMESPACE }}
-          
-
-      - name: Update backend image
-        run: |
-          kubectl set image deployment/${{ env.DEPLOYMENT }} \
-            ${{ env.CONTAINER }}=${{ env.IMAGE }} \
-            -n ${{ env.NAMESPACE }}
 
       - name: kubectl rollout restart
         run: |

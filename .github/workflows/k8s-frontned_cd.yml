@@ -50,18 +50,18 @@ jobs:
           kubectl cluster-info
           kubectl get nodes
 
-      - name: kubectl apply
-        run: |
-          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
-
 
       - name: Update frontend image
         run: |
           kubectl set image deployment/${{ env.DEPLOYMENT }} \
             ${{ env.CONTAINER }}=${{ env.IMAGE }} \
             -n ${{ env.NAMESPACE }}
+
+      - name: kubectl apply
+        run: |
+          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
 
       - name: kubectl rollout restart
         run: |
