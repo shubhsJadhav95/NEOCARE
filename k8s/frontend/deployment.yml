@@ -18,3 +18,4 @@ spec:
         image: 
         ports:
         - containerPort: 8080
+# image via pipeline
