@@ -19,19 +19,15 @@ jobs:
 
       - name: Update backend image
         run: |
-          sed -i 's|image: .*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest|g' k8s/backend/deployment.yml
-
-          if ! grep -q "imagePullPolicy" k8s/backend/deployment.yml; then
-            sed -i '/image:/a\        imagePullPolicy: Always' k8s/backend/deployment.yml
-          fi
+            kubectl set image deployment/backend \
+            backend=347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest \
+            -n neocare
 
       - name: Update frontend image
         run: |
-          sed -i 's|image: .*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest|g' k8s/frontend/deployment.yml
-
-          if ! grep -q "imagePullPolicy" k8s/frontend/deployment.yml; then
-            sed -i '/image:/a\        imagePullPolicy: Always' k8s/frontend/deployment.yml
-          fi
+            kubectl set image deployment/frontend \
+            frontend=347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest \
+            -n neocare
 
       - name: Configure kubeconfig
         run: |
