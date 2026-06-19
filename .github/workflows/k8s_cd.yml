@@ -15,7 +15,7 @@ env:
   AWS_REGION: us-east-1       
   EKS_CLUSTER_NAME: neocare-dev-eks 
   NAMESPACE: neocare         
-  DEPLOYMENT:  frontend-deployment      l
+  DEPLOYMENT:  frontend-deployment      
   CONTAINER: neocare-frontend-deploy        
   IMAGE: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest
 
