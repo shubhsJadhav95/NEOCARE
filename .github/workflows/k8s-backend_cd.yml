@@ -60,6 +60,8 @@ jobs:
       - name: Inject image into manifest
         run: |
          sed -i "s|image:.*|image: ${{ env.IMAGE }}|g" k8s/backend/deployment.yml
+         echo "===== deployment.yml ====="
+         cat k8s/frontend/deployment.yml
 
 
       - name: kubectl apply
@@ -68,7 +70,6 @@ jobs:
           kubectl apply -f k8s/backend/service.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/backend/ingress.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/backend/configmap.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/backend/deployment.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/secretProvider.yml -n ${{ env.NAMESPACE }}
 
       - name: kubectl rollout restart
