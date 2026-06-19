@@ -52,11 +52,11 @@ jobs:
 
       - name: kubectl apply
         run: |
-          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/configmap.yml -n ${{ env.NAMESPACE }}
-          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/backend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/backend/service.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/backend/ingress.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/backend/configmap.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/backend/deployment.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/secretProvider.yml -n ${{ env.NAMESPACE }}
           
 

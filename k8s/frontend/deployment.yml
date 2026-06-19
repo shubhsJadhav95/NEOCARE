@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: neocare-frontend-deploy
-        image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest
+        image: 
         ports:
         - containerPort: 8080
