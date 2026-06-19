@@ -4,7 +4,7 @@ metadata:
   name: frontend-deployment
   namespace: neocare
 spec:
-  replicas: 2
+  replicas: 12
   selector:
     matchLabels:
       app: frontend
