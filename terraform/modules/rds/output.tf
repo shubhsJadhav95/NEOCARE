@@ -1,7 +1,4 @@
-output "db_instance_id" {
-  description = "RDS instance identifier"
-  value       = aws_db_instance.postgres.id
-}
+
 
 output "db_instance_arn" {
   description = "ARN of the RDS instance"
