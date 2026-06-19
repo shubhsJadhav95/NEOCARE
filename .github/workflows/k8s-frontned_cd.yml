@@ -49,7 +49,12 @@ jobs:
           kubectl version --client
           kubectl cluster-info
           kubectl get nodes
-
+      
+      - name: Debug
+        run: |
+          echo "DEPLOYMENT='${{ env.DEPLOYMENT }}'"
+          echo "CONTAINER='${{ env.CONTAINER }}'"
+          echo "IMAGE='${{ env.IMAGE }}'"
 
       - name: Update frontend image
         run: |
@@ -57,13 +62,15 @@ jobs:
             ${{ env.CONTAINER }}=${{ env.IMAGE }} \
             -n ${{ env.NAMESPACE }}
 
-      - name: kubectl apply
+
+      - name: Apply manifests
         run: |
           kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
           kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
 
-      - name: kubectl rollout restart
+
+      - name: Wait for rollout
         run: |
-          kubectl rollout restart deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }}
-          kubectl rollout status deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }} --timeout=60s
+          kubectl rollout status deployment/${{ env.DEPLOYMENT }} \
+            -n ${{ env.NAMESPACE }} --timeout=120s

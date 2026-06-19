@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: neocare-frontend-deploy
-        image: cd pipeline
+        image: 
         ports:
         - containerPort: 8080
