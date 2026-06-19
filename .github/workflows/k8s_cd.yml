@@ -8,7 +8,7 @@ on:
       - "k8s/**"
 
 jobs:
-  deploy:
+  deploy_to_k8s:
     runs-on: ubuntu-latest
 
     steps:
