@@ -1,67 +1,68 @@
-name: Deploy to Kubernetes
+name: Kubernetes CD
 
 on:
   push:
     branches:
       - devops
-   
-  pull_request:
-    branches:
-      - devops
-    
+    paths:
+      - "k8s/**"
 
 jobs:
-  deploy_to_k8s:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: devops
+          fetch-depth: 0
 
-      - name: Set image tag in backend manifest
+      - name: Update backend image
         run: |
-          sed -i "s|image: .*neocare-backend:.*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest|g" k8s/backend/deployment.yml
-          grep -q "imagePullPolicy: Always" k8s/backend/deployment.yml || sed -i "/image: .*neocare-backend:.*/a\\        imagePullPolicy: Always" k8s/backend/deployment.yml
-          cat k8s/backend/deployment.yml | grep -A1 "image:"
+          sed -i 's|image: .*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest|g' k8s/backend/deployment.yml
 
-      - name: Set image tag in frontend manifest
+          if ! grep -q "imagePullPolicy" k8s/backend/deployment.yml; then
+            sed -i '/image:/a\        imagePullPolicy: Always' k8s/backend/deployment.yml
+          fi
+
+      - name: Update frontend image
         run: |
-          sed -i "s|image: .*neocare-frontend:.*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest|g" k8s/frontend/deployment.yml
-          grep -q "imagePullPolicy: Always" k8s/frontend/deployment.yml || sed -i "/image: .*neocare-frontend:.*/a\\        imagePullPolicy: Always" k8s/frontend/deployment.yml
-          cat k8s/frontend/deployment.yml | grep -A1 "image:"
+          sed -i 's|image: .*|image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-frontend:latest|g' k8s/frontend/deployment.yml
+
+          if ! grep -q "imagePullPolicy" k8s/frontend/deployment.yml; then
+            sed -i '/image:/a\        imagePullPolicy: Always' k8s/frontend/deployment.yml
+          fi
 
       - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > ~/.kube/config
 
-      - name: Apply manifests
+      - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/backend/deployment.yml -n neocare
           kubectl apply -f k8s/frontend/deployment.yml -n neocare
 
-      - name: Force rollout (since tag is :latest)
+      - name: Restart deployments
         run: |
           kubectl rollout restart deployment/backend -n neocare
           kubectl rollout restart deployment/frontend -n neocare
-          kubectl rollout status deployment/backend -n neocare --timeout=120s
-          kubectl rollout status deployment/frontend -n neocare --timeout=120s
 
-      - name: Rollback on failure
-        if: failure()
+      - name: Wait for rollout
         run: |
-          kubectl rollout undo deployment/backend -n neocare
-          kubectl rollout undo deployment/frontend -n neocare
+          kubectl rollout status deployment/backend -n neocare --timeout=180s
+          kubectl rollout status deployment/frontend -n neocare --timeout=180s
 
-      - name: Commit updated manifests back to repo
+      - name: Commit manifest changes
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add k8s/backend/deployment.yml k8s/frontend/deployment.yml
-          git diff --cached --quiet || git commit -m "ci: update image tags [skip ci]"
-          git push origin devops
+          git config user.name github-actions
+          git config user.email actions@github.com
+
+          git add k8s/backend/deployment.yml
+          git add k8s/frontend/deployment.yml
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Kubernetes manifests [skip ci]"
+            git push origin devops
+          fi
