@@ -2,11 +2,13 @@
 variable "project" {
   description = "Project / application name"
   type        = string
+  default = "neocare"
 }
 
 variable "env" {
   description = "Environment (dev / staging / prod)"
   type        = string
+  default = "dev"
 }
 
 variable "aws_region" {
@@ -40,7 +42,7 @@ variable "availability_zones" {
 variable "ami_id" {
   description = "ubuntu AMI for us-east-1"
   type        = string
-  # Find latest: aws ssm get-parameter --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
+   default = "ami-0b6d9d3d33ba97d99" # Find latest: aws ssm get-parameter --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
 }
 
 variable "jump_instance_type" {
@@ -62,7 +64,7 @@ variable "public_key_path" {
 variable "allowed_ssh_cidrs" {
   description = "Your office/home IP to allow SSH to jump server"
   type        = list(string)
-  # Example: ["49.xx.xx.xx/32"]
+  default = [ "103.167.122.21/32" ]
 }
 
 # ── EKS ──
@@ -95,4 +97,14 @@ variable "eks_public_endpoint" {
   description = "Expose EKS API server publicly (false = private only)"
   type        = bool
   default     = false
+}
+
+variable "db_username" {
+    type = string
+    default = "postgres"
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
 }

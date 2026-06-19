@@ -68,6 +68,26 @@ module "eks" {
   depends_on = [module.vpc]
 }
 
+
+
+
+# 5 . rds
+
+module "rds" {
+  source = "../../modules/rds"
+
+  project            = var.project
+  env                = var.env
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  db_username        = var.db_username
+  db_password        = var.db_password
+
+  depends_on = [module.vpc]
+
+ 
+}
+
 # ── Local values ──
 locals {
   common_tags = {
