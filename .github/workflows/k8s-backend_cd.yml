@@ -56,6 +56,11 @@ jobs:
           kubectl set image deployment/${{ env.DEPLOYMENT }} \
             ${{ env.CONTAINER }}=${{ env.IMAGE }} \
             -n ${{ env.NAMESPACE }}
+            
+      - name: Inject image into manifest
+        run: |
+         sed -i "s|image:.*|image: ${{ env.IMAGE }}|g" k8s/backend/deployment.yml
+
 
       - name: kubectl apply
         run: |
