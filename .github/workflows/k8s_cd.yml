@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - devops
-    paths:
-      - "k8s/**"
+    
 
 jobs:
   deploy_to_k8s:
