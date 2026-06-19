@@ -53,6 +53,9 @@ jobs:
       - name: kubectl apply
         run: |
           kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
+
 
       - name: Update frontend image
         run: |

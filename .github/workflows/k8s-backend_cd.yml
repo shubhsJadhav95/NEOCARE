@@ -1,0 +1,72 @@
+name: Deploy Frontend to Kubernetes
+
+on:
+  push:
+    branches: [main, devops]
+    
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Image tag to deploy'
+        required: false
+        default: 'latest'
+
+env:
+  AWS_REGION: us-east-1       
+  EKS_CLUSTER_NAME: neocare-dev-eks 
+  NAMESPACE: neocare         
+  DEPLOYMENT:  backend     
+  CONTAINER: backend       
+  IMAGE: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest
+
+permissions:
+  id-token: write   # required for OIDC -> AWS role assumption
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Configure kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ env.EKS_CLUSTER_NAME }}
+
+      - name: Verify cluster
+        run: |
+          kubectl version --client
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: kubectl apply
+        run: |
+          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/service.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/ingress.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/configmap.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
+          kubectl apply -f k8s/secretProvider.yml -n ${{ env.NAMESPACE }}
+          
+
+      - name: Update backend image
+        run: |
+          kubectl set image deployment/${{ env.DEPLOYMENT }} \
+            ${{ env.CONTAINER }}=${{ env.IMAGE }} \
+            -n ${{ env.NAMESPACE }}
+
+      - name: kubectl rollout restart
+        run: |
+          kubectl rollout restart deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }}
+          kubectl rollout status deployment/${{ env.DEPLOYMENT }} -n ${{ env.NAMESPACE }} --timeout=60s
