@@ -4,14 +4,18 @@ on:
   push:
     branches:
       - devops
+    paths:
+      - 'frontend/**'
   pull_request:
     branches:
       - devops
+    paths:
+      - 'frontend/**'
 
 jobs:
   build:
     name: Install & Build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     defaults:
       run:
@@ -47,7 +51,7 @@ jobs:
           retention-days: 1
 
   security-check:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
 
     steps:
@@ -78,7 +82,7 @@ jobs:
 
   test:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: security-check
 
     defaults:
@@ -103,7 +107,7 @@ jobs:
     #     run: npm run lint
         
   sonarqube:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: test
     steps:
     - uses: actions/checkout@v6
@@ -118,7 +122,7 @@ jobs:
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
   build_docker_image_and_push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: sonarqube
   
     steps:
