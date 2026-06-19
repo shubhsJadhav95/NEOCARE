@@ -54,9 +54,8 @@ jobs:
         run: |
           kubectl apply -f k8s/frontend/deployment.yml -n ${{ env.NAMESPACE }}
 
-      - name: kubectl set image
+      - name: Update frontend image
         run: |
-          IMAGE_TAG="${{ github.event.inputs.image_tag || github.sha }}"
           kubectl set image deployment/${{ env.DEPLOYMENT }} \
             ${{ env.CONTAINER }}=${{ env.IMAGE }} \
             -n ${{ env.NAMESPACE }}
