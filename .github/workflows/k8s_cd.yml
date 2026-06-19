@@ -2,9 +2,8 @@ name: Deploy Frontend to Kubernetes
 
 on:
   push:
-    branches: [main]
-    paths:
-      - 'k8s/frontend/**'
+    branches: [main, devops]
+    
   workflow_dispatch:
     inputs:
       image_tag:
