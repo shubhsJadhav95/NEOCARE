@@ -1,3 +1,6 @@
+
+# SWITCH TO DEVOPS BRANCH FOR MINITORING, LOGGING, CICD
+
 # 🏥 NeoCare — Healthcare SaaS Platform
 
 NeoCare is a state-of-the-art Healthcare SaaS Platform designed to streamline medical consulting, prescription management, and medicine order fulfillment. It features real-time chat, P2P video teleconsulting via WebRTC, and an AI-driven health assistant.
