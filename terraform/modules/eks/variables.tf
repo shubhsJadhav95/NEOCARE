@@ -15,7 +15,7 @@ variable "kubernetes_version" {
 variable "node_instance_type" {
   description = "EC2 instance type for EKS worker nodes"
   type        = string
-  default     = "c7i-flex.large"
+  default     = "t3.small"
 }
 
 variable "node_desired_size" {
