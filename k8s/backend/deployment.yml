@@ -21,7 +21,7 @@ spec:
 
       containers:
         - name: backend
-          image: 347026173735.dkr.ecr.us-east-1.amazonaws.com/neocare-backend:latest
+          image: shubhsjadhav95/neocare-backend:v12
           ports:
             - containerPort: 5000
           envFrom:
